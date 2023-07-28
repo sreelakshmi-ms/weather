@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weather</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<!-- #C1CFEA;background-color: #84bdf1e9; -->
+<style>
+    body{
+        background-image: url(./images/weather.jpeg);
+        background-size: cover;
+        /* background-position: center center; */
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    li{
+        list-style: none;
+    }
+</style>
+<body class="text-white" >
+    <div class="container mt-5 ps-5 pb-2 pe-5 pt-4 text-black" style="border-radius: 15px; width: 550px; background-color: #ffffff66;">
+        <h1 class=" text-center mt-2">Weather Forecast Report</h1>
+        <form>
+            <div class="mb-3">
+                <!-- <label for="example" class="form-label">Enter Location</label> -->
+                <input type="text" class="form-control mt-3" id="example" placeholder="Enter Location">
+            </div>
+            <button type="button" onclick="accessData()" class="btn btn-primary">Check</button>
+        </form>
+        <div id="result" class="">
+        
+        </div>
+    </div>
+
+</body>
+<script>
+    function accessData() {
+        loc = example.value
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${loc}&appid=b41ec3be35c7dac8aabbc21ba253137a`)
+        .then(data=>data.json()).then(wdata => displayData(wdata))
+
+        function displayData(wthrData){
+            city=loc
+            weather=wthrData.weather[0].description
+            temp = wthrData.main.temp
+            temp1=Math.floor(temp-273.15)
+            result.innerHTML +=`
+           <center>
+                <div style="width: 18rem;">
+                    <i class="fa-solid fa-cloud-bolt fa-10x" style="color: #044281;"></i><br>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">${city}</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="fw-bold">${weather}</li>
+                        <li class="fw-bold">${temp1}<sup>o</sup>C</li>
+                    </ul>
+                    </div>
+            </center>`
+        }
+    }
+</script>
+
+</html>
